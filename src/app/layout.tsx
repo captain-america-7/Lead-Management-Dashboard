@@ -15,7 +15,7 @@ const geistMono = Geist_Mono({
 import Shell from "@/components/Shell";
 
 export const metadata: Metadata = {
-  title: "LeadFlow Dashboard",
+  title: "LeadFlow Dashboard v1.0",
   description: "Modern Lead Management System",
 };
 
