@@ -1,12 +1,13 @@
 {
-  "name": "temp-init",
+  "name": "lead-management-dashboard",
   "version": "0.1.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "seed": "tsx src/scripts/seed.ts"
   },
   "dependencies": {
     "@faker-js/faker": "^10.2.0",

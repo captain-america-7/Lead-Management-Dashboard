@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from 'next/server';
 import dbConnect from '@/lib/db';
 import Lead from '@/models/Lead';
 
+export const dynamic = 'force-dynamic';
+
 interface RouteParams {
     params: {
         id: string;

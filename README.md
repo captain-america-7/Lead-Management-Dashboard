@@ -1,71 +1,80 @@
-# Lead Management Dashboard
+# Lead Management Dashboard (LeadFlow)
 
-A modern, high-performance Lead Management Dashboard built with Next.js, TypeScript, and MongoDB.
+A modern, high-performance mini CRM designed for efficient lead tracking, analysis, and management. Built with Next.js 15, TypeScript, and MongoDB.
 
-## Features
+## 🚀 Overview
 
-- 📊 **Lead Overview**: Track and manage leads through different stages (New, Contacted, Qualified, Converted, Lost).
-- 🔍 **Search & Filter**: Quickly find leads by name, email, or status.
-- 📱 **Responsive Design**: Fully responsive UI for desktop and mobile access.
-- 🔐 **Authentication**: Secure login system for team members.
-- 🚀 **Next.js 15+**: Built using the latest Next.js App Router for optimal performance.
+LeadFlow is a full-stack dashboard that demonstrates the ability to handle data-heavy applications. It features a robust backend API for searching, filtering, and paginating leads, coupled with a premium, responsive frontend.
 
-## Tech Stack
+## 🛠 Tech Stack
 
-- **Frontend**: Next.js, React, TypeScript, Tailwind CSS
-- **Backend**: Next.js API Routes
-- **Database**: MongoDB with Mongoose
-- **Styling**: Vanilla CSS / Tailwind (if applicable)
+- **Frontend**: Next.js 15+, React 19, TypeScript, Tailwind CSS
+- **Visualization**: Recharts
+- **Icons**: Lucide React
+- **Backend**: Next.js API Routes (Edge compatible)
+- **Database**: MongoDB Atlas with Mongoose
+- **Data Seeding**: Faker.js
 
-## Getting Started
+## ✨ Features
+
+- 📊 **Real-time Analytics**: Interactive charts showing lead distribution and conversion rates.
+- 🔍 **Advanced Lead Management**: Search, filter by status, and paginate through hundreds of leads.
+- 📱 **Mobile Responsive**: Fully optimized for all device sizes.
+- 🔐 **Secure Authentication**: Protected dashboard routes with middleware.
+
+## 🏁 Getting Started
 
 ### Prerequisites
 
 - Node.js 18.x or later
-- MongoDB instance (local or Atlas)
+- MongoDB instance (Local or Atlas)
 
 ### Installation
 
-1. Clone the repository:
+1. **Clone the repository**
    ```bash
    git clone https://github.com/your-username/Lead-Management-Dashboard.git
    cd Lead-Management-Dashboard
    ```
 
-2. Install dependencies:
+2. **Install dependencies**
    ```bash
    npm install
    ```
 
-3. Set up environment variables:
-   Copy `.env.example` to `.env.local` and update the values.
+3. **Configure Environment Variables**
+   Create a `.env.local` file in the root directory:
    ```bash
    cp .env.example .env.local
    ```
+   Update `MONGODB_URI` with your connection string.
 
-4. Run the development server:
+4. **Seed the Database**
+   Populate your database with 500+ realistic dummy leads:
+   ```bash
+   npm run seed
+   ```
+
+5. **Start Development Server**
    ```bash
    npm run dev
    ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🔐 Credentials (Demo)
 
-## Project Structure
+Use the following credentials to access the dashboard:
+- **Email**: `admin@example.com`
+- **Password**: `admin123`
 
-- `src/app`: Next.js App Router pages and API routes.
-- `src/components`: Reusable UI components.
-- `src/models`: Mongoose database schemas.
-- `src/lib`: Utility functions and database connection logic.
+## 📁 Project Structure
 
-## Contributing
+- `src/app/api`: Backend REST endpoints.
+- `src/app/(dashboard)`: Protected frontend pages.
+- `src/components`: UI components (Shell, Sidebar, etc.).
+- `src/models`: Mongoose schemas.
+- `src/scripts`: Database seeding scripts.
 
-1. Fork the project
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
-## License
+## 📄 License
 
 Distributed under the MIT License. See `LICENSE` for more information.
 
