@@ -40,10 +40,19 @@ export default function LeadsList() {
         try {
             const res = await fetch(`/api/leads?${params}`);
             const result = await res.json();
-            setLeads(result.data);
-            setPagination(result.pagination);
+
+            if (res.ok && result.data) {
+                setLeads(result.data);
+                setPagination(result.pagination);
+            } else {
+                console.error('API Error:', result.error || 'Unknown error');
+                setLeads([]);
+                setPagination(null);
+            }
         } catch (error) {
             console.error('Failed to fetch leads:', error);
+            setLeads([]);
+            setPagination(null);
         } finally {
             setLoading(false);
         }

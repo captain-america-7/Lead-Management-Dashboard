@@ -18,17 +18,20 @@ const COLORS = ['#3b82f6', '#22c55e', '#f59e0b', '#ef4444', '#8b5cf6', '#06b6d4'
 export default function AnalyticsPage() {
     const [data, setData] = useState<AnalyticsData | null>(null);
     const [loading, setLoading] = useState(true);
+    const [mounted, setMounted] = useState(false);
 
     useEffect(() => {
+        setMounted(true);
         fetch('/api/analytics')
             .then((res) => res.json())
             .then((data) => {
                 setData(data);
                 setLoading(false);
-            });
+            })
+            .catch(() => setLoading(false));
     }, []);
 
-    if (loading) return <div className="text-secondary text-center py-20">Loading detailed analytics...</div>;
+    if (!mounted || loading) return <div className="text-secondary text-center py-20">Loading detailed analytics...</div>;
     if (!data) return null;
 
     return (

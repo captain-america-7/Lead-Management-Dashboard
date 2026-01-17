@@ -32,18 +32,30 @@ const COLORS = ['#3b82f6', '#22c55e', '#f59e0b', '#ef4444', '#8b5cf6'];
 export default function Dashboard() {
     const [data, setData] = useState<AnalyticsData | null>(null);
     const [loading, setLoading] = useState(true);
+    const [mounted, setMounted] = useState(false);
 
     useEffect(() => {
+        setMounted(true);
         fetch('/api/analytics')
-            .then((res) => res.json())
-            .then((data) => {
-                setData(data);
+            .then((res) => res.json().then(data => ({ ok: res.ok, data })))
+            .then(({ ok, data }) => {
+                if (ok && data && !data.error) {
+                    setData(data);
+                } else {
+                    console.error('Analytics API error:', data.error || 'Unknown error');
+                    setData(null);
+                }
+                setLoading(false);
+            })
+            .catch((err) => {
+                console.error('Failed to fetch analytics:', err);
+                setData(null);
                 setLoading(false);
             });
     }, []);
 
-    if (loading) return <div className="text-white">Loading dashboard...</div>;
-    if (!data) return <div className="text-white">Failed to load analytics.</div>;
+    if (!mounted || loading) return <div className="text-white p-8">Loading dashboard...</div>;
+    if (!data) return <div className="text-white p-8">Failed to load analytics.</div>;
 
     const stats = [
         { name: 'Total Leads', value: data.totalLeads, icon: Users, color: '#3b82f6' },
