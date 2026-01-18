@@ -4,6 +4,10 @@ const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/lead-d
 
 if (!MONGODB_URI) {
   console.warn('MONGODB_URI is not defined. Database operations will fail.');
+} else {
+  // Mask the URI for logging security
+  const maskedUri = MONGODB_URI.replace(/:([^@]+)@/, ':****@');
+  console.log('DB Connecting to:', maskedUri);
 }
 
 /**
