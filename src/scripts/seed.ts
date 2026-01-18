@@ -29,14 +29,14 @@ const LeadSchema = new mongoose.Schema(
 const Lead = mongoose.models.Lead || mongoose.model('Lead', LeadSchema);
 
 const statuses = ['New', 'Contacted', 'Qualified', 'Converted', 'Lost'];
-const sources = ['Website', 'Facebook Ads', 'Google Search', 'LinkedIn', 'Referral', 'Email Campaign'];
+const sources = ['Google', 'LinkedIn', 'Referral', 'Organic', 'Ads'];
 const agents = ['John Doe', 'Jane Smith', 'Alice Johnson', 'Bob Brown', 'Charlie Davis'];
 
 async function seed() {
     try {
         console.log('Connecting to MongoDB...');
         await mongoose.connect(MONGODB_URI);
-        console.log('Connected.');
+        console.log('Connected to:', MONGODB_URI.substring(0, 30) + '...');
 
         console.log('Clearing existing leads...');
         await Lead.deleteMany({});
@@ -48,6 +48,11 @@ async function seed() {
         console.log(`Generating ${numLeads} leads...`);
 
         for (let i = 0; i < numLeads; i++) {
+            // Generate a random date within the last 60 days
+            const daysAgo = Math.floor(Math.random() * 60);
+            const date = new Date();
+            date.setDate(date.getDate() - daysAgo);
+
             leads.push({
                 name: faker.person.fullName(),
                 email: faker.internet.email().toLowerCase(),
@@ -55,7 +60,8 @@ async function seed() {
                 status: faker.helpers.arrayElement(statuses),
                 source: faker.helpers.arrayElement(sources),
                 assignedTo: faker.helpers.arrayElement(agents),
-                createdAt: faker.date.past({ years: 1 }),
+                createdAt: date,
+                updatedAt: date,
             });
         }
 
