@@ -28,7 +28,7 @@ interface AnalyticsData {
     sourceBreakdown: { source: string; count: number }[];
 }
 
-const COLORS = ['#3b82f6', '#22c55e', '#f59e0b', '#ef4444', '#8b5cf6'];
+const COLORS = ['#6366f1', '#10b981', '#f59e0b', '#f43f5e', '#8b5cf6'];
 
 export default function Dashboard() {
     const [data, setData] = useState<AnalyticsData | null>(null);
@@ -62,13 +62,13 @@ export default function Dashboard() {
             });
     }, []);
 
-    if (!mounted || loading) return <div className="text-white p-8">Loading dashboard...</div>;
-    if (error) return <div className="text-red-500 p-8">Failed to load analytics: {error}</div>;
-    if (!data) return <div className="text-white p-8">No data available.</div>;
+    if (!mounted || loading) return <div className="text-slate-200 p-8">Loading dashboard...</div>;
+    if (error) return <div className="text-rose-500 p-8">Failed to load analytics: {error}</div>;
+    if (!data) return <div className="text-slate-200 p-8">No data available.</div>;
 
     const stats = [
-        { name: 'Total Leads', value: data.totalLeads, icon: Users, color: '#3b82f6' },
-        { name: 'Conversion Rate', value: `${data.conversionRate}%`, icon: TrendingUp, color: '#22c55e' },
+        { name: 'Total Leads', value: data.totalLeads, icon: Users, color: '#6366f1' },
+        { name: 'Conversion Rate', value: `${data.conversionRate}%`, icon: TrendingUp, color: '#10b981' },
         { name: 'Monthly Growth', value: `${data.growthRate}%`, icon: PieChartIcon, color: '#f59e0b' },
         { name: 'Top Source', value: data.sourceBreakdown[0]?.source || 'N/A', icon: UserCheck, color: '#8b5cf6' },
     ];
@@ -76,23 +76,23 @@ export default function Dashboard() {
     return (
         <div className="space-y-8">
             <div>
-                <h1 className="text-3xl font-bold text-white mb-2">Workspace Overview</h1>
-                <p className="text-secondary">Welcome back! Here's what's happening today.</p>
+                <h1 className="text-3xl font-bold text-slate-50 mb-2">Workspace Overview</h1>
+                <p className="text-slate-400">Welcome back! Here's what's happening today.</p>
             </div>
 
             {/* Stats Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                 {stats.map((stat) => (
-                    <div key={stat.name} className="card glass flex items-center gap-6">
+                    <div key={stat.name} className="card glass flex items-center gap-6 border-slate-800">
                         <div
-                            className="p-4 rounded-2xl"
+                            className="p-4 rounded-xl"
                             style={{ backgroundColor: `${stat.color}15`, color: stat.color }}
                         >
-                            <stat.icon size={28} />
+                            <stat.icon size={24} />
                         </div>
                         <div>
-                            <p className="text-secondary text-sm font-medium">{stat.name}</p>
-                            <h3 className="text-2xl font-bold text-white mt-1">{stat.value}</h3>
+                            <p className="text-slate-400 text-sm font-medium">{stat.name}</p>
+                            <h3 className="text-2xl font-bold text-slate-50 mt-1 tabular-nums">{stat.value}</h3>
                         </div>
                     </div>
                 ))}
@@ -100,27 +100,28 @@ export default function Dashboard() {
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                 {/* Status Breakdown Chart */}
-                <div className="card glass">
-                    <h3 className="text-xl font-semibold text-white mb-6">Leads by Status</h3>
+                <div className="card glass border-slate-800">
+                    <h3 className="text-xl font-semibold text-slate-50 mb-6">Leads by Status</h3>
                     <div className="h-[300px]">
                         <ResponsiveContainer width="100%" height="100%">
                             <BarChart data={data.statusBreakdown}>
-                                <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.1)" />
-                                <XAxis dataKey="status" stroke="#94a3b8" />
-                                <YAxis stroke="#94a3b8" />
+                                <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" vertical={false} />
+                                <XAxis dataKey="status" stroke="#94a3b8" fontSize={12} tickLine={false} axisLine={false} />
+                                <YAxis stroke="#94a3b8" fontSize={12} tickLine={false} axisLine={false} />
                                 <Tooltip
-                                    contentStyle={{ backgroundColor: '#1e293b', border: '1px solid rgba(255,255,255,0.1)' }}
+                                    cursor={{ fill: 'rgba(255,255,255,0.05)' }}
+                                    contentStyle={{ backgroundColor: '#18181b', border: '1px solid #27272a', borderRadius: '8px' }}
                                     itemStyle={{ color: '#fff' }}
                                 />
-                                <Bar dataKey="count" fill="#3b82f6" radius={[4, 4, 0, 0]} />
+                                <Bar dataKey="count" fill="#6366f1" radius={[4, 4, 0, 0]} barSize={40} />
                             </BarChart>
                         </ResponsiveContainer>
                     </div>
                 </div>
 
                 {/* Source Distribution Pie */}
-                <div className="card glass">
-                    <h3 className="text-xl font-semibold text-white mb-6">Top Lead Sources</h3>
+                <div className="card glass border-slate-800">
+                    <h3 className="text-xl font-semibold text-slate-50 mb-6">Top Lead Sources</h3>
                     <div className="h-[300px]">
                         <ResponsiveContainer width="100%" height="100%">
                             <PieChart>
@@ -128,18 +129,19 @@ export default function Dashboard() {
                                     data={data.sourceBreakdown}
                                     cx="50%"
                                     cy="50%"
-                                    innerRadius={60}
-                                    outerRadius={100}
+                                    innerRadius={80}
+                                    outerRadius={110}
                                     paddingAngle={5}
                                     dataKey="count"
                                     nameKey="source"
+                                    stroke="none"
                                 >
                                     {data.sourceBreakdown.map((entry, index) => (
                                         <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                                     ))}
                                 </Pie>
                                 <Tooltip
-                                    contentStyle={{ backgroundColor: '#1e293b', border: '1px solid rgba(255,255,255,0.1)' }}
+                                    contentStyle={{ backgroundColor: '#18181b', border: '1px solid #27272a', borderRadius: '8px' }}
                                     itemStyle={{ color: '#fff' }}
                                 />
                             </PieChart>
