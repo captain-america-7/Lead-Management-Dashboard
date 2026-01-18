@@ -15,6 +15,10 @@ async function listCollections() {
         await mongoose.connect(MONGODB_URI);
         console.log('Connected to MongoDB');
 
+        if (!mongoose.connection.db) {
+            throw new Error('Database connection failed');
+        }
+
         const collections = await mongoose.connection.db.listCollections().toArray();
         console.log('Collections detected:', collections.map(c => c.name));
 
