@@ -30,7 +30,6 @@ LeadFlow is a full-stack dashboard that demonstrates the ability to handle data-
 - MongoDB instance (Local or Atlas)
 
 ### Installation
-
 1. **Clone the repository**
    ```bash
    git clone https://github.com/your-username/Lead-Management-Dashboard.git
@@ -43,11 +42,11 @@ LeadFlow is a full-stack dashboard that demonstrates the ability to handle data-
    ```
 
 3. **Configure Environment Variables**
-   Create a `.env.local` file in the root directory:
-   ```bash
-   cp .env.example .env.local
-   ```
-   Update `MONGODB_URI` with your connection string.
+   Create a `.env.local` file:
+   | Variable | Description |
+   |:---|:---|
+   | `MONGODB_URI` | `mongodb+srv://user:pass@cluster.mongodb.net/lead-dashboard?retryWrites=true&w=majority` |
+   | `AUTH_TOKEN` | Secret token for middleware auth (default: `authenticated`) |
 
 4. **Seed the Database**
    Populate your database with 500+ realistic dummy leads:
@@ -59,6 +58,13 @@ LeadFlow is a full-stack dashboard that demonstrates the ability to handle data-
    ```bash
    npm run dev
    ```
+
+## 🔌 API Documentation
+
+| Method | Endpoint | Description |
+|:---|:---|:---|
+| `GET` | `/api/analytics` | Returns total leads, conversion rates, and growth metrics (Uses Native MongoDB Driver). |
+| `GET` | `/api/leads` | Returns paginated list of leads with support for filtering and searching. |
 
 ## 🔐 Credentials (Demo)
 
