@@ -28,12 +28,12 @@ export default function LeadsList() {
     const [status, setStatus] = useState('');
     const [page, setPage] = useState(1);
 
-    const fetchLeads = useCallback(async () => {
+    const fetchLeads = useCallback(async (searchQuery: string, statusFilter: string, pageNum: number) => {
         setLoading(true);
         const params = new URLSearchParams({
-            search,
-            status,
-            page: page.toString(),
+            search: searchQuery,
+            status: statusFilter,
+            page: pageNum.toString(),
             limit: '10',
         });
 
@@ -56,14 +56,14 @@ export default function LeadsList() {
         } finally {
             setLoading(false);
         }
-    }, [search, status, page]);
+    }, []);
 
     useEffect(() => {
         const timer = setTimeout(() => {
-            fetchLeads();
-        }, 300);
+            fetchLeads(search, status, page);
+        }, 500); // 500ms debounce
         return () => clearTimeout(timer);
-    }, [fetchLeads]);
+    }, [search, status, page, fetchLeads]);
 
     const getStatusColor = (status: string) => {
         switch (status) {
