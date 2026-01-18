@@ -23,6 +23,7 @@ import {
 interface AnalyticsData {
     totalLeads: number;
     conversionRate: string;
+    growthRate: string;
     statusBreakdown: { status: string; count: number }[];
     sourceBreakdown: { source: string; count: number }[];
 }
@@ -68,7 +69,7 @@ export default function Dashboard() {
     const stats = [
         { name: 'Total Leads', value: data.totalLeads, icon: Users, color: '#3b82f6' },
         { name: 'Conversion Rate', value: `${data.conversionRate}%`, icon: TrendingUp, color: '#22c55e' },
-        { name: 'Active Statuses', value: data.statusBreakdown.length, icon: PieChartIcon, color: '#f59e0b' },
+        { name: 'Monthly Growth', value: `${data.growthRate}%`, icon: PieChartIcon, color: '#f59e0b' },
         { name: 'Top Source', value: data.sourceBreakdown[0]?.source || 'N/A', icon: UserCheck, color: '#8b5cf6' },
     ];
 
