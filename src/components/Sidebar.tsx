@@ -43,13 +43,13 @@ const Sidebar = () => {
             <Link
               key={item.name}
               href={item.href}
-              className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 ${isActive
-                ? 'bg-primary text-white shadow-lg shadow-primary/20'
-                : 'text-secondary hover:bg-white/5 hover:text-foreground'
+              className={`flex items-center gap-3 px-4 py-2.5 text-sm font-medium rounded-md transition-all duration-200 border-l-2 ${isActive
+                ? 'border-indigo-500 bg-white/5 text-white'
+                : 'border-transparent text-slate-400 hover:text-slate-200 hover:bg-white/5'
                 }`}
             >
-              <Icon size={20} />
-              <span className="font-medium">{item.name}</span>
+              <Icon size={18} className={isActive ? 'text-indigo-400' : 'text-slate-500'} />
+              <span>{item.name}</span>
             </Link>
           );
         })}
