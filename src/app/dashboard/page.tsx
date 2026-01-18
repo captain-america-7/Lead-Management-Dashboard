@@ -34,28 +34,36 @@ export default function Dashboard() {
     const [loading, setLoading] = useState(true);
     const [mounted, setMounted] = useState(false);
 
+    const [error, setError] = useState<string | null>(null);
+
     useEffect(() => {
         setMounted(true);
         fetch('/api/analytics')
-            .then((res) => res.json().then(data => ({ ok: res.ok, data })))
-            .then(({ ok, data }) => {
-                if (ok && data && !data.error) {
-                    setData(data);
-                } else {
-                    console.error('Analytics API error:', data.error || 'Unknown error');
-                    setData(null);
+            .then(async (res) => {
+                if (!res.ok) {
+                    const text = await res.text();
+                    throw new Error(`API Error ${res.status}: ${text}`);
                 }
+                return res.json();
+            })
+            .then((data) => {
+                if (data.error) {
+                    throw new Error(data.error);
+                }
+                setData(data);
                 setLoading(false);
             })
             .catch((err) => {
                 console.error('Failed to fetch analytics:', err);
+                setError(err.message);
                 setData(null);
                 setLoading(false);
             });
     }, []);
 
     if (!mounted || loading) return <div className="text-white p-8">Loading dashboard...</div>;
-    if (!data) return <div className="text-white p-8">Failed to load analytics.</div>;
+    if (error) return <div className="text-red-500 p-8">Failed to load analytics: {error}</div>;
+    if (!data) return <div className="text-white p-8">No data available.</div>;
 
     const stats = [
         { name: 'Total Leads', value: data.totalLeads, icon: Users, color: '#3b82f6' },
