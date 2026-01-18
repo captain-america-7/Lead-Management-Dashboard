@@ -5,8 +5,10 @@ import Lead from '@/models/Lead';
 export const dynamic = 'force-dynamic';
 
 export async function GET() {
+    console.log('API /api/analytics: Starting request');
     try {
         await dbConnect();
+        console.log('API /api/analytics: DB connected');
 
         const [totalLeads, statusBreakdown, sourceBreakdown] = await Promise.all([
             Lead.countDocuments(),
@@ -21,6 +23,7 @@ export async function GET() {
                 { $project: { source: '$_id', count: 1, _id: 0 } },
             ]),
         ]);
+        console.log('API /api/analytics: Data fetched', { totalLeads });
 
         // Calculate conversion rate (Converted / Total)
         const convertedLeads = statusBreakdown.find((s) => s.status === 'Converted')?.count || 0;
@@ -33,7 +36,7 @@ export async function GET() {
             sourceBreakdown,
         });
     } catch (error: any) {
-        console.error('API Error:', error);
-        return NextResponse.json({ error: error.message }, { status: 500 });
+        console.error('API /api/analytics: Error occurred', error);
+        return NextResponse.json({ error: error.message || 'Internal Server Error' }, { status: 500 });
     }
 }
